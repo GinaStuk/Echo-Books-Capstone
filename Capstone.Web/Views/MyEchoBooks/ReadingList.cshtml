@@ -10,79 +10,49 @@
     <h4 class="echoBooks">Welcome, @Model.CurrentUser.Username</h4>
     <div class="container">
        
-        @foreach (var book in Model.ReadingList)
-            {
+        @for (int i = 0; i < Model.ReadingList.Count(); i++)
+        
+        {
             <div class="col-md-3 readingListDesc">
                 <div class="readingListImgContainer">
-                    @if (string.IsNullOrEmpty(book.ImageLink))
+                    @if (string.IsNullOrEmpty(Model.ReadingList[i].ImageLink))
                     {
-                        <img class="readingListImg"src="@Url.Content("~/Content/echobookslogo.png")" />
+                        <img class="readingListImg" src="@Url.Content("~/Content/echobookslogo.png")" />
                     }
                     else
                     {
-                        <img class="readingListImg"src="@book.ImageLink" />
+                        <img class="readingListImg" src="@Model.ReadingList[i].ImageLink" />
                     }
 
-                    @if (book.HasRead)
+                    @if (Model.ReadingList[i].HasRead)
                     {
                         <img class="checkmark" src="@Url.Content("~/Content/check-mark.png")" alt="Checkmark" />
 
                     }
 
                 </div>
-                <p class="readingListTitle">@Html.ActionLink(@book.Title, "BookDetail", "Book", new { bookID = book.BookID }, null)</p>
-                <p class="readingListAuthor"> by @book.Author</p>
+                <p class="readingListTitle">@Html.ActionLink(@Model.ReadingList[i].Title, "BookDetail", "Book", new { bookID = Model.ReadingList[i].BookID }, null)</p>
+                <p class="readingListAuthor"> by @Model.ReadingList[i].Author</p>
 
                 <div class="readingListButton">
-                    @if (!book.HasRead)
+                    @if (!Model.ReadingList[i].HasRead)
 
                     {
-                        <a href="@Url.Action("ChangeToRead", "MyEchoBooks", new { bookID = book.BookID })" class="btn btn-warning">Mark as Read&nbsp;<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>
+                        <a href="@Url.Action("ChangeToRead", "MyEchoBooks", new { bookID = Model.ReadingList[i].BookID })" class="btn btn-warning">Mark as Read&nbsp;<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>
 
                     }
                 </div>
             </div>
+            if((1+i) % 3 != 0)
+            {
+            <div class="col-md-1"></div>
+            }
         }
+       
       
     </div>
 
 </body>
 
 
-@*<table class="table table-striped">
-
-        <tbody>
-            @foreach (var book in Model.ReadingList)
-            {
-                <tr >
-                    <td>
-                        @if (string.IsNullOrEmpty(book.ImageLink))
-                    {
-                            <img class="img-responsive" src="@Url.Content("~/Content/echobookslogo.png")" />
-                        }
-                        else
-                        {
-                            <img class="img-responsive" src="@book.ImageLink"/>
-                        }
-                    </td>
-
-                    <td>
-                        <p class="readingListDesc"><span class="readingListTitle">@book.Title</span><span class="readingListAuthor"> by @book.Author</span></p>
-                    </td>
-                    <td>
-                        @if (book.HasRead)
-                    {
-                            <p><span class="glyphicon glyphicon-ok"></span></p>
-
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("ChangeToRead", "MyEchoBooks", new { bookID = book.BookID })" class="btn btn-warning">Mark as Read&nbsp;<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>
-
-                        }
-                    </td>
-
-                </tr>
-            }
-        </tbody>
-    </table>*@
+   
